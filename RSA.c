@@ -26,22 +26,22 @@ int Multiple (unsigned long long a)
         return 1;
 }
 
-// renvoi un nombre aléatoire impair égal à (2*a*b*c)-1, avec a,b et c compris entre 5 et 60.
+// renvoi un nombre alÃ©atoire impair Ã©gal Ã  (2*a*b*c)-1, avec a,b et c compris entre 5 et 60.
 unsigned long long Aleatoire()
 {
     unsigned long long resultat,a,b;
 
-    srand( time(NULL)*rand()%99999 ); // initialisation de rand par le produit nombre pseudo-aléatoire compris entre 0 et 99999, et le nombre de secondes écoulées depuis 1970
+    srand( time(NULL)*rand()%99999 ); // initialisation de rand par le produit nombre pseudo-alÃ©atoire compris entre 0 et 99999, et le nombre de secondes Ã©coulÃ©es depuis 1970
     a = rand()%(60-5) + 5;
 
-    srand( time(NULL)*a*rand()); // réinitialisation de rand, avec rajout du facteur "a"
+    srand( time(NULL)*a*rand()); // rÃ©initialisation de rand, avec rajout du facteur "a"
     b = rand()%(60-5) + 5;
 
     resultat = (2 * a * b) - 1; // on multiplie par 2 puis on soustrait 1 pour avoir un nombre impair
     return resultat;
 }
 
-// Génère un nombre premier à partir d'un nombre aléatoire de la fonction "Aleatoire"
+// GÃ©nÃ¨re un nombre premier Ã  partir d'un nombre alÃ©atoire de la fonction "Aleatoire"
 unsigned long long Generateur_Premier ()
 {
     unsigned long long nombre,i,divisible,racine;
@@ -55,16 +55,16 @@ unsigned long long Generateur_Premier ()
         i = 1;
         divisible = 0;
 
-        racine = round(sqrt(nombre));  // calcul de la valeur approchée de la racine carrée de "nombre"
+        racine = round(sqrt(nombre));  // calcul de la valeur approchÃ©e de la racine carrÃ©e de "nombre"
 
-        // si le nombre est un multiple d'un nombre premier, et différent de 2,
+        // si le nombre est un multiple d'un nombre premier, et diffÃ©rent de 2,
         // alors le nombre n'est pas prmeier
         while(Multiple(nombre)==1)
             nombre+= 2;
 
 
-        // Sinon on test si "nombre" est divisble par tout les nombre inférieurs à "racine",
-        // exepté les nombre multiples des nombres premiers 3,5,7,11,13,17 et 19
+        // Sinon on test si "nombre" est divisble par tout les nombre infÃ©rieurs Ã  "racine",
+        // exeptÃ© les nombre multiples des nombres premiers 3,5,7,11,13,17 et 19
         while (i<racine && divisible==0)
         {
             i+=2;
@@ -96,13 +96,13 @@ unsigned long long PGCD (int a, int b)
     return b;
 }
 
-// renvoi "u", faisant partie du couple de solutions (u,v) de l'équation diophantienne au + bv = c
-// Selon l'identité de Bezout ax + by = pgcd(a,b). Ici, c sera donc toujours égal à 1, car a et b sont premier entre eux.
+// renvoi "u", faisant partie du couple de solutions (u,v) de l'Ã©quation diophantienne au + bv = c
+// Selon l'identitÃ© de Bezout ax + by = pgcd(a,b). Ici, c sera donc toujours Ã©gal Ã  1, car a et b sont premier entre eux.
 uint64_t Euclide_etendu (uint64_t a, uint64_t b)
 {
     unsigned long long r = a, u = 1, v = 0;
     unsigned long long rx = b, ux = 0, vx = 1, q;
-    unsigned long long rs, us, vs;  // variables intermédiares
+    unsigned long long rs, us, vs;  // variables intermÃ©diares
 
     while(rx != 0)
     {
@@ -149,18 +149,18 @@ void Vider_Buffer_Clavier ()
 
 int main(int argc, char **argv)
 {
-    uint64_t p, q, n, phi_n, e, d; // variables nécessaires aux calculs des clés de cryptage
+    uint64_t p, q, n, phi_n, e, d; // variables nÃ©cessaires aux calculs des clÃ©s de cryptage
     int i, taille;
     char recommencer = 0;
     clock_t t1, t2, t3, t4, t5, t6; // type permettant de stocker le temps processeur
-    long clock_tik = CLOCKS_PER_SEC; // nombre d'unités de temps processeur par secondes (tick par secondes)
+    long clock_tik = CLOCKS_PER_SEC; // nombre d'unitÃ©s de temps processeur par secondes (tick par secondes)
 
     do
     {
         t1 = clock(); // renvoi le temps de l'horloge du processeur
 
 
-        /// Génération des clés ///
+        /// GÃ©nÃ©ration des clÃ©s ///
 
 
         p = Generateur_Premier();
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
         phi_n = (p-1) * (q-1);
         printf("phi_n %I64u \n\n", phi_n);
 
-        if( (q - p) < 0 ) // le plus grand nombre de p ou de q est affecté à e
+        if( (q - p) < 0 ) // le plus grand nombre de p ou de q est affectÃ© Ã  e
             e = p;
 
         else
@@ -191,28 +191,28 @@ int main(int argc, char **argv)
 
 
         /*
-          On sait que d est un nombre tel que e*d est congru à 1 mod(phi_n).
-          d est l'inverse modulaire de e mod(phi_n), on peut donc écrire :
+          On sait que d est un nombre tel que e*d est congru Ã  1 mod(phi_n).
+          d est l'inverse modulaire de e mod(phi_n), on peut donc Ã©crire :
 
           e*d + k*phi_n = 1   ou k est un entier relatif.
 
-          On ne cherche qu'a déterminer d.
+          On ne cherche qu'a dÃ©terminer d.
 
-          On a alors une équation diophantienne de type ax + by = c qui peut être résolue en utilisant
-          l'algorithme d'euclide étendu.
+          On a alors une Ã©quation diophantienne de type ax + by = c qui peut Ãªtre rÃ©solue en utilisant
+          l'algorithme d'euclide Ã©tendu.
 
           Cependant, selon le cryptage RSA :   p,q < d < phi_n
-          Et il se peut (et c'est souvent le cas) que l'algorithme d'euclide étendu ne donne pas une valeur
+          Et il se peut (et c'est souvent le cas) que l'algorithme d'euclide Ã©tendu ne donne pas une valeur
           de d comprise dans l'intervalle.
 
           Soit aX + bY = c une solution connue de ax + by = c, avec a et b premiers entre eux (PGCD(a,b)=1).
-          par soustraction membre à membre, on a : a(x-X) + b(y-Y) = 0
+          par soustraction membre Ã  membre, on a : a(x-X) + b(y-Y) = 0
           Or, a et b sont premiers entre eux, et x,X,y et Y sont des entier relatifs. Donc :
 
           a divise (y-Y) <=> y-Y = ka <=> y = Y + ka
           -b divise (x-X) <=> x-X = -kb <=> x = X - kb
 
-          Ici, x et X valent d et b vaut phi_n. Seules les solutions de x nous intéresse
+          Ici, x et X valent d et b vaut phi_n. Seules les solutions de x nous intÃ©resse
           On peut donc facilement trouver une autre valeur de d en faisant varier k.
         */
 
@@ -237,7 +237,7 @@ int main(int argc, char **argv)
         uint64_t asci[taille];
         char message[taille];
 
-        for(i=0; i<taille; i++)  // initialisation à 0 des tableaux qui contiendront le code ascii des caractères du message, et le message chiffré
+        for(i=0; i<taille; i++)  // initialisation Ã  0 des tableaux qui contiendront le code ascii des caractÃ¨res du message, et le message chiffrÃ©
         {
             message[i] = 0;
             asci[i] = 0;
@@ -295,7 +295,7 @@ int main(int argc, char **argv)
 
 
 
-        /// décryptage ///
+        /// dÃ©cryptage ///
 
         t5 = clock();
 
@@ -335,6 +335,6 @@ int main(int argc, char **argv)
     }
     while(recommencer == 'o');
 
-    return(0);
+    return(0); 
 }
 
